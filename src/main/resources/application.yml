@@ -1,0 +1,54 @@
+spring:
+  application:
+    name: api-gateway
+
+  cloud:
+    gateway:
+      server:
+        webflux:
+          discovery:
+            locator:
+              enabled: true
+          routes:
+            - id: category-service
+              uri: lb://CATEGORY-SERVICE
+              predicates:
+                - Path=/category-service/v3/api-docs/**, /api/v1/categories/**
+              filters:
+                - RewritePath=/category-service/(?<remaining>.*), /${remaining}
+
+            - id: product-service
+              uri: lb://PRODUCT-SERVICE
+              predicates:
+                - Path=/product-service/v3/api-docs/**, /api/v1/products/**
+              filters:
+                - RewritePath=/product-service/(?<remaining>.*), /${remaining}
+
+            - id: auth-service
+              uri: lb://AUTH-SERVICE
+              predicates:
+                - Path=/auth-service/v3/api-docs/**, /api/v1/auths/**
+              filters:
+                - RewritePath=/auth-service/(?<remaining>.*), /${remaining}
+
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/eureka
+
+server:
+  port: 8088
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: category-service
+        url: /category-service/v3/api-docs
+
+      - name: product-service
+        url: /product-service/v3/api-docs
+
+      - name: auth-service
+        url: /auth-service/v3/api-docs
