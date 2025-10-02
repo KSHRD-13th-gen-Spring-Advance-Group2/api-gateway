@@ -36,7 +36,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://35.209.164.72:8761/eureka
   instance:
     prefer-ip-address: true
     lease-renewal-interval-in-seconds: 5
@@ -67,7 +67,7 @@ management:
   zipkin:
     tracing:
       enabled: true
-      endpoint: http://localhost:9411/api/v2/spans
+      endpoint: http://35.209.164.72:9411/api/v2/spans
       connect-timeout: 5s
       read-timeout: 10s
       flush-interval: 1000
